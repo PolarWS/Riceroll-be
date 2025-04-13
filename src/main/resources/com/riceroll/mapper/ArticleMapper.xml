@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.riceroll.mapper.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="com.riceroll.pojo.Article">
+            <id property="id" column="id" />
+            <result property="title" column="title" />
+            <result property="createdat" column="createdAt" />
+            <result property="updatedat" column="updatedAt" />
+            <result property="wordcount" column="wordCount" />
+            <result property="url" column="url" />
+            <result property="cover" column="cover" />
+            <result property="hot" column="hot" />
+            <result property="like" column="like" />
+            <result property="content" column="content" />
+            <result property="toc" column="toc" />
+            <result property="articlelock" column="articleLock" />
+            <result property="toclock" column="tocLock" />
+            <result property="top" column="top" />
+            <result property="commentread" column="commentRead" />
+            <result property="commentwrite" column="commentWrite" />
+            <result property="deleted" column="deleted" />
+    </resultMap>
+    <resultMap id="string" type="java.lang.String"></resultMap>
+    <resultMap id="integer" type="java.lang.Integer"></resultMap>
+    <sql id="Base_Column_List">
+        id,title,createdAt,wordCount,
+        cover,substr(content,1,30) as content
+    </sql>
+    <sql id="base_Content">
+        id, title, createdAt, updatedAt, wordCount,
+        cover, hot, like, content, toc
+    </sql>
+    <sql id="base_Content_All">
+        id, title, createdAt, updatedAt, wordCount,
+        cover, hot, like, content, toc, articlelock,
+        toclock, top, commentread, commentwrite
+    </sql>
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from article where deleted = 0
+        order by createdAt DESC
+    </select>
+    <select id="selectById" resultMap="BaseResultMap">
+        select
+        <include refid="base_Content"/>
+        from article
+        where
+        id = #{id,jdbcType=NUMERIC} and deleted = 0
+    </select>
+    <select id="selectTags" resultMap="string">
+        select tags.tag
+        from article join tags join articleTags
+        on tags.id = articleTags.tagId
+        and article.id = articleTags.articleId
+        where article.id = #{articleId} and article.deleted = 0
+    </select>
+    <select id="selectTagList" resultMap="string">
+        select tags.tag
+        from article join tags join articleTags
+        on tags.id = articleTags.tagId
+        and article.id = articleTags.articleId
+        where article.deleted = 0
+        group by tags.tag
+        order by tags.tag DESC
+    </select>
+    <select id="selectYearList" resultMap="integer">
+        SELECT DISTINCT
+            CASE
+                WHEN createdAt LIKE '____-__-__%' THEN substr(createdAt, 1, 4)
+                WHEN createdAt LIKE '____/__/__%' THEN substr(createdAt, 1, 4)
+                ELSE NULL
+                END AS year
+        FROM article
+        WHERE year IS NOT NULL AND deleted = 0
+        ORDER BY year DESC
+    </select>
+    <select id="selectKeyword" resultMap="BaseResultMap">
+        SELECT DISTINCT id, title, substr(content,1,30) as content
+        FROM (
+         -- 搜索 tags
+         SELECT article.id, article.title, article.content
+         FROM article
+                  INNER JOIN articleTags ON article.id = articleTags.articleId
+                  INNER JOIN tags ON articleTags.tagId = tags.id
+         WHERE tags.tag LIKE #{keyword} and article.deleted = 0
+         UNION
+         -- 搜索 title
+         SELECT article.id, article.title, article.content
+         FROM article
+         WHERE article.title LIKE #{keyword} and article.deleted = 0
+         UNION
+         -- 搜索 content
+         SELECT article.id, article.title, article.content
+         FROM article
+         WHERE article.content LIKE #{keyword} and article.deleted = 0
+     ) AS combined_results order by id DESC
+    </select>
+    <select id="selectAllByCreatedat" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        where
+        createdAt LIKE #{createdat,jdbcType=VARCHAR}
+    </select>
+    <select id="selectALLByTag" resultMap="BaseResultMap">
+        select
+            article.id AS id,
+            article.title AS title,
+            article.createdAt AS createdAt
+        from article join articleTags join tags
+        on article.id = articleTags.articleId
+        and articleTags.tagId = tags.id
+        where
+        tag = #{tag,jdbcType=VARCHAR}
+    </select>
+</mapper>
