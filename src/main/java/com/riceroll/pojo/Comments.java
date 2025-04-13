@@ -1,5 +1,6 @@
 package com.riceroll.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -33,5 +34,6 @@ public class Comments {
 
     private String date;
 
+    @TableLogic
     private Integer deleted;
 }

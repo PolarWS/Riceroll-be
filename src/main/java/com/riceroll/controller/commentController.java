@@ -16,6 +16,7 @@ import com.riceroll.vo.comment.commentaddVO;
 import com.riceroll.vo.comment.memeListVO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class commentController {
     private MemoryStoreUtils memoryStore;
 
     @GetMapping("/comment")
-    public ApiResponse<List<commentVO>> getComment(@ModelAttribute commentDTO commentDTO) {
+    public ApiResponse<List<commentVO>> getComment(@ModelAttribute @Validated commentDTO commentDTO) {
         // 获取分页信息
         Page<Comments> commentsPage = new Page<>(commentDTO.getPage(), commentDTO.getPage_size());
         // 调用 Service 层业务方法获取处理后的评论列表
@@ -42,7 +43,7 @@ public class commentController {
     }
 
     @PostMapping("/commentadd")
-    public ApiResponse<commentaddVO> addComment(@RequestBody commentaddDTO commentaddDTO, HttpServletRequest request) {
+    public ApiResponse<commentaddVO> addComment(@RequestBody @Validated commentaddDTO commentaddDTO, HttpServletRequest request) {
         if(memoryStore.get(commentaddDTO.getPassId()) == null){
             return ApiResponse.fail(400, "验证码错误");
         }

@@ -15,6 +15,7 @@ public class captchaCheckDTO {
     private Double rotation;
 
     @NotNull(message = "鼠标轨迹数据不能为空")
+    @Size(min = 1, max = 3000, message = "鼠标轨迹数据太大了喵~")
     private List<Long[]> mouseData;
 
 }

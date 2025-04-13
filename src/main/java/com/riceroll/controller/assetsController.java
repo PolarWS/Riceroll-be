@@ -6,6 +6,7 @@ import com.riceroll.dto.assets.memeDTO;
 import com.riceroll.utils.ApiResponse;
 import com.riceroll.vo.assets.markdownPageVO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,12 +18,12 @@ public class assetsController {
     }
 
     @GetMapping("/markdownPage")
-    public ApiResponse<markdownPageVO> getMarkdownPage(@ModelAttribute markdownPageDTO markdownPageDTO){
+    public ApiResponse<markdownPageVO> getMarkdownPage(@ModelAttribute @Validated markdownPageDTO markdownPageDTO){
         return null;
     }
 
     @GetMapping("/meme/{pathname}/{filename}")
-    public ResponseEntity<?> getMeme(@RequestParam String pathname, @ModelAttribute String filename, memeDTO memeDTO){
+    public ResponseEntity<?> getMeme(@RequestParam("pathname") String pathname, @ModelAttribute @Validated String filename, memeDTO memeDTO){
         memeDTO.setPathname(pathname);
         memeDTO.setFilename(filename);
         return null;

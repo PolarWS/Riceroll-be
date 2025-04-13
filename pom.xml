@@ -51,11 +51,11 @@
         </dependency>
 
         <!-- druid启动器的依赖  -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-3-starter</artifactId>
-            <version>1.2.24</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid-spring-boot-3-starter</artifactId>-->
+<!--            <version>1.2.24</version>-->
+<!--        </dependency>-->
 
         <!--    sqlite    -->
         <dependency>

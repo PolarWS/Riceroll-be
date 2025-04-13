@@ -9,14 +9,20 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       id-type: auto
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
 
 static:
   rootpath: E:/javaleran/javaCode/data
 
+logging:
+  level:
+    com.riceroll.mapper: debug
 
 
 #  controller	接收 HTTP 请求，调用 service，返回统一响应

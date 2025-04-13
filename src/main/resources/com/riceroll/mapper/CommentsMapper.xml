@@ -36,7 +36,7 @@
         <include refid="Base_Column_List_IP"/>
         from comments
         where
-        url = #{url,jdbcType=VARCHAR}
+        url = #{url,jdbcType=VARCHAR} and deleted = 0
         order by date DESC
     </select>
     <select id="selectByUuidOrderByDateDesc" resultMap="BaseResultMap">
@@ -44,7 +44,7 @@
         <include refid="Base_Column_List"/>
         from comments
         where
-        uuid = #{uuid,jdbcType=VARCHAR}
+        uuid = #{uuid,jdbcType=VARCHAR} and deleted = 0
         order by date desc
     </select>
     <select id="selectByRidOrderByDateDesc" resultMap="BaseResultMap">
@@ -52,7 +52,7 @@
         <include refid="Base_Column_List"/>
         from comments
         where
-        rid = #{rid,jdbcType=VARCHAR}
+        rid = #{rid,jdbcType=VARCHAR} and deleted = 0
         order by date desc
     </select>
     <select id="selectByUrlAndPidIsNullOrderByDateDesc" resultMap="BaseResultMap">
@@ -61,7 +61,7 @@
         from comments
         where
         url = #{url,jdbcType=VARCHAR}
-        AND pid = ""
+        and pid = "" and deleted = 0
         order by date desc
     </select>
 </mapper>

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class captchaController {
     }
 
     @GetMapping("/captchaImg")
-    public ResponseEntity<?> getCaptchaImg(@ModelAttribute captchaImgDTO captchaImgDTO) {
+    public ResponseEntity<?> getCaptchaImg(@ModelAttribute @Validated captchaImgDTO captchaImgDTO) {
         Captcha captcha = (Captcha) memoryStore.get("captchaUser:" + captchaImgDTO.getId());
         if(captcha == null) {
             return ResponseEntity
@@ -73,7 +74,7 @@ public class captchaController {
     }
 
     @PostMapping("/captchaCheck")
-    public ApiResponse<captchaCheckVO> captchaCheck(@RequestBody captchaCheckDTO captchaCheckDTO) {
+    public ApiResponse<captchaCheckVO> captchaCheck(@RequestBody @Validated captchaCheckDTO captchaCheckDTO) {
         if (memoryStore.exists("captchaUser:" + captchaCheckDTO.getId())) {
             Captcha captcha = (Captcha) memoryStore.get("captchaUser:" + captchaCheckDTO.getId());
             if (captcha == null) {

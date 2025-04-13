@@ -10,17 +10,11 @@ public class mdVO {
     private Title title;
     private String md;
     private List<String> tag;
-    private List<Toc> toc;
+    private List<Map<String, Object>> toc;
 
     @Data
-    private static class Title {
+    public static class Title {
         private String content;
-        private String img;
-    }
-
-    @Data
-    private static class Toc {
-        private int level;
-        private String text;
+        private String cover;
     }
 }

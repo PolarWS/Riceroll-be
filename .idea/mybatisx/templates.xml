@@ -67,8 +67,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="Captcha" />
-                  <option name="tableName" value="captcha" />
+                  <option name="className" value="Article" />
+                  <option name="tableName" value="article" />
                 </TableUIInfo>
               </list>
             </option>
