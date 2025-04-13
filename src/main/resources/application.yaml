@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:E:/javaleran/javaCode/data/index.db
+    driver-class-name: org.sqlite.JDBC
+
+mybatis-plus:
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: com.riceroll.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+static:
+  rootpath: E:/javaleran/javaCode/data
+
+
+
+#  controller	接收 HTTP 请求，调用 service，返回统一响应
+#  service	定义业务逻辑接口，便于拓展与测试
+#  service.impl	实现业务逻辑
+#  mapper	定义数据库访问接口（MyBatis 用）
+#  pojo	Persistence Object），跟数据库表字段对应
+#  dto	前端请求参数结构，例如注册表单、分页查询条件
+#  vo	后端返回给前端的数据结构，安全 & 清晰
+#  config	配置类，如拦截器、token 校验、CORS 配置
+#  utils	工具类，比如 JWT 工具、加密工具、文件上传工具等

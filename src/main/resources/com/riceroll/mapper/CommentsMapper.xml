@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.riceroll.mapper.CommentsMapper">
+
+    <resultMap id="BaseResultMap" type="com.riceroll.pojo.Comments">
+            <id property="uuid" column="uuid" />
+            <result property="name" column="name" />
+            <result property="link" column="link" />
+            <result property="ip" column="ip" />
+            <result property="ua" column="ua" />
+            <result property="email" column="email" />
+            <result property="comment" column="comment" />
+            <result property="rid" column="rid" />
+            <result property="pid" column="pid" />
+            <result property="url" column="url" />
+            <result property="avatar" column="avatar" />
+            <result property="date" column="date" />
+            <result property="deleted" column="deleted" />
+    </resultMap>
+
+    <sql id="Base_Column_List_IP">
+        uuid,name,link,ip,ua,email,
+        comment,rid,pid,url,avatar,
+        date
+    </sql>
+
+    <sql id="Base_Column_List">
+        uuid,name,link,ip,ua,email,
+        comment,rid,pid,url,avatar,
+        date
+    </sql>
+    <select id="selectByUrlOrderByDateDesc" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_IP"/>
+        from comments
+        where
+        url = #{url,jdbcType=VARCHAR}
+        order by date DESC
+    </select>
+    <select id="selectByUuidOrderByDateDesc" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from comments
+        where
+        uuid = #{uuid,jdbcType=VARCHAR}
+        order by date desc
+    </select>
+    <select id="selectByRidOrderByDateDesc" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from comments
+        where
+        rid = #{rid,jdbcType=VARCHAR}
+        order by date desc
+    </select>
+    <select id="selectByUrlAndPidIsNullOrderByDateDesc" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from comments
+        where
+        url = #{url,jdbcType=VARCHAR}
+        AND pid = ""
+        order by date desc
+    </select>
+</mapper>

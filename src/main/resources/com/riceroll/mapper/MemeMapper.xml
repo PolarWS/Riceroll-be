@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.riceroll.mapper.MemeMapper">
+
+    <resultMap id="BaseResultMap" type="com.riceroll.pojo.Meme">
+            <id property="id" column="id" />
+            <result property="url" column="url" />
+            <result property="name" column="name" />
+            <result property="groupid" column="groupId" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,url,name,groupId
+    </sql>
+    <select id="selectByGroupid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from meme
+        where
+        groupId = #{groupid,jdbcType=NUMERIC}
+    </select>
+</mapper>
