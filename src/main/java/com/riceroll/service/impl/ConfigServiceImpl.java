@@ -32,7 +32,7 @@ public class ConfigServiceImpl implements ConfigService {
         Path path = Paths.get(rootPath, File.separator, "config.json");
         String filePath = path.toString();
         File configFile = new File(filePath);
-
+        System.out.println("configFile = " + configFile);
         if (!configFile.exists()) {
             return null;
         }

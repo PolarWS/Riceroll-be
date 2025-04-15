@@ -67,6 +67,18 @@ public class MemoryStoreUtils {
         return result;
     }
 
+    public Map<String, Object> fuzzySearchMap(String pattern) {
+        Map<String, Object> result = new ConcurrentHashMap<>();
+        for (Map.Entry<String, Object> entry : store.entrySet()) {
+            String key = entry.getKey();
+            if (!isExpired(key) && key.contains(pattern)) {
+                String newKey = key.replace(pattern, "");
+                result.put(newKey, entry.getValue());
+            }
+        }
+        return result;
+    }
+
 
     private boolean isExpired(String key) {
         Long expireTime = expireMap.get(key);

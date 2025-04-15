@@ -3,7 +3,7 @@ package com.riceroll.controller;
 import com.riceroll.dto.assets.imageDTO;
 import com.riceroll.dto.assets.markdownPageDTO;
 import com.riceroll.dto.assets.memeDTO;
-import com.riceroll.service.impl.AssetsImpl;
+import com.riceroll.service.impl.AssetsServiceImpl;
 import com.riceroll.utils.ApiResponse;
 import com.riceroll.utils.FileValidationUtils;
 import com.riceroll.vo.assets.markdownPageVO;
@@ -25,7 +25,7 @@ public class assetsController {
     private String rootPath;
 
     @Autowired
-    private AssetsImpl assetsImpl;
+    private AssetsServiceImpl assetsServiceImpl;
 
     @GetMapping("/image/{filename}")
     public ResponseEntity<?> getImage(@PathVariable String filename, @ModelAttribute @Validated imageDTO imageDTO) {
@@ -48,7 +48,7 @@ public class assetsController {
             return ApiResponse.fail(400, "非法文件名");
         }
         markdownPageVO markdownPageVO = new markdownPageVO();
-        markdownPageVO.setMd(assetsImpl.getMarkdownPage(markdownPageDTO.getFile()));
+        markdownPageVO.setMd(assetsServiceImpl.getMarkdownPage(markdownPageDTO.getFile()));
         return ApiResponse.success(markdownPageVO);
     }
 

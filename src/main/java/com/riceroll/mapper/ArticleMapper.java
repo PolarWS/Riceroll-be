@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.riceroll.pojo.Article
 */
 public interface ArticleMapper extends BaseMapper<Article> {
+    Integer selectCount();
+
     List<Integer> selectYearList();
 
     List<String> selectTagList();

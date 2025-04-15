@@ -1,10 +1,8 @@
 package com.riceroll.service.impl;
 
-import com.riceroll.utils.ApiResponse;
 import com.riceroll.utils.MemoryStoreUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 @Service
-public class AssetsImpl {
+public class AssetsServiceImpl {
 
     @Value("${static.rootpath}")
     private String rootPath;

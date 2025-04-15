@@ -19,18 +19,27 @@
             <result property="date" column="date" />
             <result property="deleted" column="deleted" />
     </resultMap>
-
+    <resultMap id="integer" type="java.lang.Integer"></resultMap>
     <sql id="Base_Column_List_IP">
         uuid,name,link,ip,ua,email,
         comment,rid,pid,url,avatar,
         date
     </sql>
-
     <sql id="Base_Column_List">
         uuid,name,link,ip,ua,email,
         comment,rid,pid,url,avatar,
         date
     </sql>
+    <select id="selectCount" resultMap="integer">
+        SELECT COUNT(*) FROM comments
+    </select>
+    <select id="selectCommentsNew" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM comments
+        where deleted = 0
+        ORDER BY date DESC LIMIT 5
+    </select>
     <select id="selectByUrlOrderByDateDesc" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List_IP"/>

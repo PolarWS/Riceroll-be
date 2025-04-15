@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -43,12 +44,15 @@ public class commentController {
     }
 
     @PostMapping("/commentadd")
-    public ApiResponse<commentaddVO> addComment(@RequestBody @Validated commentaddDTO commentaddDTO, HttpServletRequest request) {
+    public ApiResponse<commentaddVO> addComment(@RequestBody @Validated commentaddDTO commentaddDTO, HttpServletRequest request) throws IOException {
         if(memoryStore.get(commentaddDTO.getPassId()) == null){
             return ApiResponse.fail(400, "验证码错误");
         }
 
-        //验证路径在不在config文件或者评论区有没有锁定，后面再回来写咯
+        if(commentsService.commentsLock(commentaddDTO.getUrl())){
+            return ApiResponse.fail(400, "评论已锁定");
+        }
+
         String ipAddress = request.getRemoteAddr();
         String uuid = java.util.UUID.randomUUID().toString().replace("-", "");
         String currentTime = java.time.LocalDateTime.now()

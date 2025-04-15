@@ -1,4 +1,4 @@
 package com.riceroll.service;
 
-public interface Assets {
+public interface AssetsService {
 }

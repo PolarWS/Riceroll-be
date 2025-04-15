@@ -14,6 +14,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.riceroll.pojo.Comments
 */
 public interface CommentsMapper extends BaseMapper<Comments> {
+    Integer selectCount();
+
+    List<Comments> selectCommentsNew();
+
     List<Comments> selectByUrlOrderByDateDesc(@Param("url") String url, Page<Comments> page);
 
     List<Comments> selectByUrlAndPidIsNullOrderByDateDesc(@Param("url") String url, Page<Comments> page);

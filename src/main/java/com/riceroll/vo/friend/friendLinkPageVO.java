@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class friendLinkPageVO {
-    private String ping;
+    private String hash;
+    private Long ping;
 }

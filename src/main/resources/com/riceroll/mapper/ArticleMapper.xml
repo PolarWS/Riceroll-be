@@ -31,13 +31,16 @@
     </sql>
     <sql id="base_Content">
         id, title, createdAt, updatedAt, wordCount,
-        cover, hot, like, content, toc, commentread
+        cover, hot, like, content, toc, commentread, commentwrite
     </sql>
     <sql id="base_Content_All">
         id, title, createdAt, updatedAt, wordCount,
         cover, hot, like, content, toc, articlelock,
         toclock, top, commentread, commentwrite
     </sql>
+    <select id="selectCount" resultMap="integer">
+        SELECT COUNT(*) FROM article
+    </select>
     <select id="selectList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
