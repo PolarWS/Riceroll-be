@@ -11,7 +11,6 @@ import com.riceroll.vo.captcha.captchaCheckVO;
 import com.riceroll.vo.captcha.captchaCreateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -49,27 +48,20 @@ public class captchaController {
     public ResponseEntity<?> getCaptchaImg(@ModelAttribute @Validated captchaImgDTO captchaImgDTO) {
         Captcha captcha = (Captcha) memoryStore.get("captchaUser:" + captchaImgDTO.getId());
         if(captcha == null) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.fail(400, "验证码已过期"));
+            return ResponseEntity.ok(ApiResponse.fail(400, "验证码已过期"));
         }
         String url = captcha.getUrl();
-        String path = rootPath + "/captchaImg/" + url;
-        Path imagePath = Paths.get(path);
-        if (!Files.exists(imagePath)) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.fail(404, "验证码图片不存在"));
+        Path path = Paths.get(rootPath, "captchaImg", url);
+        if (!Files.exists(path)) {
+            return ResponseEntity.ok(ApiResponse.fail(404, "验证码图片不存在"));
         }
         try {
-            byte[] imageBytes = Files.readAllBytes(Paths.get(path));
+            byte[] imageBytes = Files.readAllBytes(path);
             return ResponseEntity.ok()
                     .contentType(org.springframework.http.MediaType.IMAGE_PNG)
                     .body(imageBytes);
         } catch (IOException e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.fail(500, "读取验证码图片失败"));
+            return ResponseEntity.ok(ApiResponse.fail(500, "读取验证码图片失败"));
         }
     }
 

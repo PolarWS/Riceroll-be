@@ -9,6 +9,7 @@ import java.util.Map;
 public class mdVO {
     private Title title;
     private String md;
+    private Integer commentread;
     private List<String> tag;
     private List<Map<String, Object>> toc;
 

@@ -39,8 +39,6 @@ public class Article {
 
     private Integer commentwrite;
 
-
-
     @TableLogic
     private Integer deleted;
 }

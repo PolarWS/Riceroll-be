@@ -42,6 +42,7 @@ public class articleController {
             mdVO.setTitle(BeanMapperUtils.map(article, mdVO.Title.class));
             mdVO.setMd(article.getContent());
             mdVO.setTag(articleService.selectTags(mdDTO.getId()));
+            mdVO.setCommentread(article.getCommentread());
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 List<Map<String, Object>> tocList = objectMapper.readValue(

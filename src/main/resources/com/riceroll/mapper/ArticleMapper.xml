@@ -31,7 +31,7 @@
     </sql>
     <sql id="base_Content">
         id, title, createdAt, updatedAt, wordCount,
-        cover, hot, like, content, toc
+        cover, hot, like, content, toc, commentread
     </sql>
     <sql id="base_Content_All">
         id, title, createdAt, updatedAt, wordCount,
@@ -41,7 +41,7 @@
     <select id="selectList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from article where deleted = 0
+        from article where deleted = 0 and articleLock = 0
         order by createdAt DESC
     </select>
     <select id="selectById" resultMap="BaseResultMap">
@@ -49,20 +49,20 @@
         <include refid="base_Content"/>
         from article
         where
-        id = #{id,jdbcType=NUMERIC} and deleted = 0
+        id = #{id,jdbcType=NUMERIC} and deleted = 0 and articleLock = 0
     </select>
     <select id="selectTags" resultMap="string">
         select tags.tag
         from article join tags join articleTags
         on tags.id = articleTags.tagId
         and article.id = articleTags.articleId
-        where article.id = #{articleId} and article.deleted = 0
+        where article.id = #{articleId} and article.deleted = 0 and article.articleLock = 0
     </select>
     <select id="selectTagList" resultMap="string">
         select tags.tag
         from article join tags join articleTags
         on tags.id = articleTags.tagId
-        and article.id = articleTags.articleId
+        and article.id = articleTags.articleId and article.articleLock = 0
         where article.deleted = 0
         group by tags.tag
         order by tags.tag DESC
@@ -75,7 +75,7 @@
                 ELSE NULL
                 END AS year
         FROM article
-        WHERE year IS NOT NULL AND deleted = 0
+        WHERE year IS NOT NULL AND deleted = 0 AND articleLock = 0
         ORDER BY year DESC
     </select>
     <select id="selectKeyword" resultMap="BaseResultMap">
@@ -86,24 +86,24 @@
          FROM article
                   INNER JOIN articleTags ON article.id = articleTags.articleId
                   INNER JOIN tags ON articleTags.tagId = tags.id
-         WHERE tags.tag LIKE #{keyword} and article.deleted = 0
+         WHERE tags.tag LIKE #{keyword} and article.deleted = 0 and article.articleLock = 0
          UNION
          -- 搜索 title
          SELECT article.id, article.title, article.content
          FROM article
-         WHERE article.title LIKE #{keyword} and article.deleted = 0
+         WHERE article.title LIKE #{keyword} and article.deleted = 0 and article.articleLock = 0
          UNION
          -- 搜索 content
          SELECT article.id, article.title, article.content
          FROM article
-         WHERE article.content LIKE #{keyword} and article.deleted = 0
+         WHERE article.content LIKE #{keyword} and article.deleted = 0 and article.articleLock = 0
      ) AS combined_results order by id DESC
     </select>
     <select id="selectAllByCreatedat" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from article
-        where
+        where deleted = 0 and articleLock = 0 and
         createdAt LIKE #{createdat,jdbcType=VARCHAR}
     </select>
     <select id="selectALLByTag" resultMap="BaseResultMap">
@@ -115,6 +115,6 @@
         on article.id = articleTags.articleId
         and articleTags.tagId = tags.id
         where
-        tag = #{tag,jdbcType=VARCHAR}
+        tag = #{tag,jdbcType=VARCHAR} and article.deleted = 0 and article.articleLock = 0
     </select>
 </mapper>

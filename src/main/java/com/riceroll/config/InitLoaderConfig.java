@@ -1,5 +1,6 @@
 package com.riceroll.config;
 
+import com.riceroll.service.impl.AssetsImpl;
 import com.riceroll.service.impl.CaptchaServiceImpl;
 import com.riceroll.service.impl.ConfigServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,13 @@ public class InitLoaderConfig implements CommandLineRunner {
     @Autowired
     private CaptchaServiceImpl captchaService;
 
+    @Autowired
+    private AssetsImpl assetsImpl;
+
     @Override
     public void run(String... args) throws Exception {
         configService.getConfig();
         captchaService.saveCaptcha();
-    //    搜索文件夹没有就创建
+        assetsImpl.saveMarkdown();
     }
 }

@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 @Service
 public class ConfigServiceImpl implements ConfigService {
     @Value("${static.rootpath}")
-    private String rootpath;
+    private String rootPath;
 
     @Autowired
     private MemoryStoreUtils memoryStore;
@@ -27,7 +29,8 @@ public class ConfigServiceImpl implements ConfigService {
             return (Map<String, Object>) config;
         }
 
-        String filePath = rootpath + File.separator + "config.json";
+        Path path = Paths.get(rootPath, File.separator, "config.json");
+        String filePath = path.toString();
         File configFile = new File(filePath);
 
         if (!configFile.exists()) {

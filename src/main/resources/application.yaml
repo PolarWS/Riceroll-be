@@ -20,9 +20,9 @@ mybatis-plus:
 static:
   rootpath: E:/javaleran/javaCode/data
 
-logging:
-  level:
-    com.riceroll.mapper: debug
+#logging:
+#  level:
+#    com.riceroll.mapper: debug
 
 
 #  controller	接收 HTTP 请求，调用 service，返回统一响应

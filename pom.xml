@@ -84,8 +84,6 @@
             <artifactId>mybatis-plus-jsqlparser</artifactId>
             <version>3.5.11</version>
         </dependency>
-
-
     </dependencies>
 
     <!--    SpringBoot应用打包插件-->

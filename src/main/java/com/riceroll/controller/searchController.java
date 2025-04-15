@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class searchController {
@@ -52,20 +51,21 @@ public class searchController {
         int lastYear = Integer.parseInt(dto.getLastData());
         List<Integer> years = articleService.selectYearList().stream()
                 .filter(year -> year >= lastYear)
-                .collect(Collectors.toList());
+                .toList();
 
         List<filePageVO> result = new ArrayList<>();
         int count = 0;
 
         for (Integer year : years) {
-            if (count >= dto.getSize()) break;
+            if (count >= dto.getSize()) {
+                return ApiResponse.success(result,0L);
+            };
 
             List<Article> articles = articleService.selectAllByCreatedat(year.toString());
             result.add(createFilePageVO(year.toString(), articles));
             count += articles.size();
         }
-
-        return ApiResponse.success(result);
+        return ApiResponse.success(result, 1L);
     }
 
     private ApiResponse<List<filePageVO>> handleTagSearch(filePageDTO dto) {
@@ -83,14 +83,16 @@ public class searchController {
         int count = 0;
 
         for (String tag : tags) {
-            if (count >= dto.getSize()) break;
+            if (count >= dto.getSize()) {
+                return ApiResponse.success(result,0L);
+            };
 
             List<Article> articles = articleService.selectAllByTag(tag);
             result.add(createFilePageVO(tag, articles));
             count += articles.size();
         }
 
-        return ApiResponse.success(result);
+        return ApiResponse.success(result, 1L);
     }
 
     private filePageVO createFilePageVO(String label, List<Article> articles) {
