@@ -27,7 +27,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
 
     public Article selectById(Integer id) {
         List<Article> articles = articleMapper.selectById(id);
-        if(articles.size() > 0){
+        if(!articles.isEmpty()){
+            articleMapper.updateHots(id);
             return articles.get(0);
         }
         return null;
@@ -38,8 +39,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     }
 
     public List<Article> selectKeyword(String keyword,Page<Article> page) {
-        List<Article> articles = articleMapper.selectKeyword('%' + keyword + '%', page);
-        return articles;
+        return articleMapper.selectKeyword('%' + keyword + '%', page);
     }
 
     public List<Integer> selectYearList(){

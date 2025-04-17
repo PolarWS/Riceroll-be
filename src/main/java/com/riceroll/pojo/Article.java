@@ -13,11 +13,11 @@ public class Article {
 
     private String title;
 
-    private String createdat;
+    private String createdAt;
 
-    private String updatedat;
+    private String updatedAt;
 
-    private Integer wordcount;
+    private Integer wordCount;
 
     private String cover;
 
@@ -29,7 +29,7 @@ public class Article {
 
     private String toc;
 
-    private Integer articlelock;
+    private Integer articleLock;
 
     private Integer toclock;
 

@@ -11,7 +11,6 @@ public class commentVO {
     private String date;
     private String name;
     private String comment;
-    private String avatar;
     private String email;
     private String link;
     private String pid;

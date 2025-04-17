@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class commentaddDTO {
     @Size(max = 500, message = "链接长度不能超过500字符")
-    @Pattern(regexp = "^(https?://)?([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?$", message = "链接格式不正确")
+    @Pattern(regexp = "^(|(https?://)?([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?)$", message = "链接格式不正确")
     private String link;
 
     @NotBlank(message = "名称不能为空")
@@ -17,6 +17,7 @@ public class commentaddDTO {
     private String name;
 
     @Email(message = "邮箱格式不正确")
+    @NotBlank(message = "邮箱不能为空")
     @Size(max = 100, message = "邮箱长度不能超过100字符")
     private String email;
 

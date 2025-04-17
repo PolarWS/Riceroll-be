@@ -2,14 +2,12 @@ package com.riceroll.dto.search;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class searchDTO {
-    @NotNull(message = "搜索内容不能为空")
-    @Size(min = 1, max = 50,message = "搜索内容超出范围")
+    @Size( max = 50,message = "搜索内容超出范围")
     private String keyword;
 
     @Min(value = 1, message = "页码必须大于等于1")

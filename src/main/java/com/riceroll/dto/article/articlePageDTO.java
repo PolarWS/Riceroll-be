@@ -11,5 +11,5 @@ public class articlePageDTO {
 
     @Min(value = 1, message = "每页大小必须大于等于1")
     @Max(value = 100, message = "每页大小不能超过100")
-    private Integer page_size = 20;
+    private Integer page_size = 10;
 }

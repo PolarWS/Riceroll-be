@@ -8,4 +8,6 @@ public class articlePageVO {
     private String title;
     private String content;
     private String cover;
+    private String createdAt;
+    private Integer wordCount;
 }

@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,7 @@ public class MonitoringServiceImpl {
                         HttpRequest request = HttpRequest.newBuilder()
                                 .uri(URI.create(url))
                                 .method("HEAD", HttpRequest.BodyPublishers.noBody())
+                                .timeout(Duration.ofSeconds(30))
                                 .build();
                         HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
                         long latency = System.currentTimeMillis() - startTime;

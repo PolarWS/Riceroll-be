@@ -15,6 +15,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface ArticleMapper extends BaseMapper<Article> {
     Integer selectCount();
 
+    void updateHots(@Param("id") Integer id);
+
     List<Integer> selectYearList();
 
     List<String> selectTagList();

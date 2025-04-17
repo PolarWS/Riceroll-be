@@ -7,16 +7,15 @@
     <resultMap id="BaseResultMap" type="com.riceroll.pojo.Article">
             <id property="id" column="id" />
             <result property="title" column="title" />
-            <result property="createdat" column="createdAt" />
-            <result property="updatedat" column="updatedAt" />
-            <result property="wordcount" column="wordCount" />
-            <result property="url" column="url" />
+            <result property="createdAt" column="createdAt" />
+            <result property="updatedAt" column="updatedAt" />
+            <result property="wordCount" column="wordCount" />
             <result property="cover" column="cover" />
             <result property="hot" column="hot" />
             <result property="like" column="like" />
             <result property="content" column="content" />
             <result property="toc" column="toc" />
-            <result property="articlelock" column="articleLock" />
+            <result property="articleLock" column="articleLock" />
             <result property="toclock" column="tocLock" />
             <result property="top" column="top" />
             <result property="commentread" column="commentRead" />
@@ -27,7 +26,7 @@
     <resultMap id="integer" type="java.lang.Integer"></resultMap>
     <sql id="Base_Column_List">
         id,title,createdAt,wordCount,
-        cover,substr(content,1,30) as content
+        cover,substr(content,1,50) as content
     </sql>
     <sql id="base_Content">
         id, title, createdAt, updatedAt, wordCount,
@@ -41,6 +40,11 @@
     <select id="selectCount" resultMap="integer">
         SELECT COUNT(*) FROM article
     </select>
+    <update id="updateHots">
+        UPDATE article
+        SET hot = hot + 1
+        WHERE id = #{id,jdbcType=NUMERIC}
+    </update>
     <select id="selectList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -82,7 +86,7 @@
         ORDER BY year DESC
     </select>
     <select id="selectKeyword" resultMap="BaseResultMap">
-        SELECT DISTINCT id, title, substr(content,1,30) as content
+        SELECT DISTINCT id, title, substr(content,1,50) as content
         FROM (
          -- 搜索 tags
          SELECT article.id, article.title, article.content

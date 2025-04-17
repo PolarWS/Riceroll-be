@@ -1,9 +1,6 @@
 package com.riceroll.dto.comment;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
@@ -12,7 +9,7 @@ public class commentDTO {
     @Size(max = 500, message = "文章路径长度不能超过500字符")
     private String url;
 
-    @Size(max = 32,min = 32,message = "请输入正确的UUID")
+    @Pattern(regexp = "^(|[0-9a-fA-F]{32})$", message = "UUID格式错误")
     private String apc;
 
     @Min(value = 1, message = "页码必须大于等于1")

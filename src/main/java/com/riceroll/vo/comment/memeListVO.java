@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class memeListVO {
     private int id;
-    private List<Meme> meme;
+    private List<Meme> memes;
     private String name;
     private String url;
 

@@ -18,6 +18,9 @@ public class ConfigServiceImpl implements ConfigService {
     @Value("${static.rootpath}")
     private String rootPath;
 
+    @Value("${static.config}")
+    private String configJson;
+
     @Autowired
     private MemoryStoreUtils memoryStore;
 
@@ -29,10 +32,9 @@ public class ConfigServiceImpl implements ConfigService {
             return (Map<String, Object>) config;
         }
 
-        Path path = Paths.get(rootPath, File.separator, "config.json");
+        Path path = Paths.get(rootPath, File.separator, configJson);
         String filePath = path.toString();
         File configFile = new File(filePath);
-        System.out.println("configFile = " + configFile);
         if (!configFile.exists()) {
             return null;
         }

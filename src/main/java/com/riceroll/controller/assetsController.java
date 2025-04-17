@@ -24,6 +24,12 @@ public class assetsController {
     @Value("${static.rootpath}")
     private String rootPath;
 
+    @Value("${static.image}")
+    private String imagePath;
+
+    @Value("${static.meme}")
+    private String memePath;
+
     @Autowired
     private AssetsServiceImpl assetsServiceImpl;
 
@@ -33,7 +39,7 @@ public class assetsController {
             return ResponseEntity.ok(ApiResponse.fail(400, "非法文件名"));
         }
         imageDTO.setFilename(filename);
-        Path path = Paths.get(rootPath, "image",imageDTO.getFilename()).normalize();
+        Path path = Paths.get(rootPath, imagePath,imageDTO.getFilename()).normalize();
         Path target = path.resolve(filename).normalize();
 
         if (!target.startsWith(path)) {
@@ -52,12 +58,12 @@ public class assetsController {
         return ApiResponse.success(markdownPageVO);
     }
 
-    @GetMapping("/meme/{pathname}/{filename}")
+    @GetMapping("/memeImage/{pathname}/{filename}")
     public ResponseEntity<?> getMeme(@PathVariable String pathname,@PathVariable String filename, @ModelAttribute @Validated memeDTO memeDTO) {
         if (!FileValidationUtils.isValidFileExtension(filename)) {
             return ResponseEntity.ok(ApiResponse.fail(400, "非法文件名"));
         }
-        Path path = Paths.get(rootPath, "meme", memeDTO.getPathname(), memeDTO.getFilename());
+        Path path = Paths.get(rootPath, memePath, memeDTO.getPathname(), memeDTO.getFilename());
         Path target = path
                 .resolve(memeDTO.getPathname())
                 .resolve(memeDTO.getFilename())

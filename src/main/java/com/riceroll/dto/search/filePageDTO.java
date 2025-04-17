@@ -17,6 +17,6 @@ public class filePageDTO {
     private String lastData;
 
     @Min(value = 1, message = "查询调数太少了喵~")
-    @Max(value = 40, message = "查询调数太多了喵~")
+    @Max(value = 50, message = "查询调数太多了喵~")
     private Integer size = 30;
 }

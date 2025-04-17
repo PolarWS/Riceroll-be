@@ -17,6 +17,9 @@ public class AssetsServiceImpl {
     @Value("${static.rootpath}")
     private String rootPath;
 
+    @Value("${static.markdown}")
+    private String markdownPath;
+
     @Autowired
     private MemoryStoreUtils memoryStoreUtils;
 
@@ -25,7 +28,7 @@ public class AssetsServiceImpl {
         if (memoryStoreUtils.exists("markdown:" + hexHash)) {
             return (String) memoryStoreUtils.get("markdown:" + hexHash);
         }
-        Path path = Paths.get(rootPath, "markdownPage", filename).normalize();
+        Path path = Paths.get(rootPath, markdownPath, filename).normalize();
         Path target = path.resolve(filename).normalize();
         if (!target.startsWith(path)) {
             return null;
@@ -38,7 +41,7 @@ public class AssetsServiceImpl {
     }
 
     public void saveMarkdown() {
-        Path path = Paths.get(rootPath, "markdownPage");
+        Path path = Paths.get(rootPath, markdownPath);
         try (Stream<Path> paths = Files.walk(path)) {
             paths.filter(Files::isRegularFile)
                     .filter(p -> p.toString().endsWith(".md"))

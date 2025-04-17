@@ -15,19 +15,18 @@
             <result property="rid" column="rid" />
             <result property="pid" column="pid" />
             <result property="url" column="url" />
-            <result property="avatar" column="avatar" />
             <result property="date" column="date" />
             <result property="deleted" column="deleted" />
     </resultMap>
     <resultMap id="integer" type="java.lang.Integer"></resultMap>
     <sql id="Base_Column_List_IP">
         uuid,name,link,ip,ua,email,
-        comment,rid,pid,url,avatar,
+        comment,rid,pid,url,
         date
     </sql>
     <sql id="Base_Column_List">
         uuid,name,link,ip,ua,email,
-        comment,rid,pid,url,avatar,
+        comment,rid,pid,url,
         date
     </sql>
     <select id="selectCount" resultMap="integer">
@@ -72,5 +71,10 @@
         url = #{url,jdbcType=VARCHAR}
         and pid = "" and deleted = 0
         order by date desc
+    </select>
+    <select id="selectEmailByPid" resultMap="BaseResultMap">
+        select email
+        from comments
+        where pid = #{pid,jdbcType=VARCHAR}
     </select>
 </mapper>

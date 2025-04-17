@@ -27,10 +27,14 @@ public class searchController {
 
     @GetMapping("/search")
     public ApiResponse<List<searchVO>> search(@ModelAttribute @Validated searchDTO searchDTO) {
+        if(!StringUtils.hasText(searchDTO.getKeyword())){
+            List<searchVO> searchVOS = new ArrayList<>();
+            return ApiResponse.success(searchVOS);
+        }
         Page<Article> page = new Page<>(searchDTO.getPage(), searchDTO.getPage_size());
         List<Article> articles = articleService.selectKeyword(searchDTO.getKeyword(), page);
         List<searchVO> searchVOS = BeanMapperUtils.mapList(articles, searchVO.class);
-        return ApiResponse.success(searchVOS);
+        return ApiResponse.success(searchVOS,page.getPages());
     }
 
     @GetMapping("/filePage")
@@ -103,7 +107,7 @@ public class searchController {
             List<filePageVO.Content> contents = new ArrayList<>(articles.size());
             for (Article article : articles) {
                 filePageVO.Content content = new filePageVO.Content();
-                content.setDate(article.getCreatedat());
+                content.setDate(article.getCreatedAt());
                 content.setId(article.getId());
                 content.setTitle(article.getTitle());
                 contents.add(content);

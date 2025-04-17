@@ -31,24 +31,26 @@ public class articleController {
         Page<Article> page = new Page<>(articlePageDTO.getPage(), articlePageDTO.getPage_size());
         List<Article> articles = articleService.selectList(page);
         List<articlePageVO> articlePageVOS = BeanMapperUtils.mapList(articles, articlePageVO.class);
-        return ApiResponse.success(articlePageVOS);
+        return ApiResponse.success(articlePageVOS, page.getPages());
     }
 
     @GetMapping("/md")
     public ApiResponse<mdVO> getMd(@ModelAttribute @Validated mdDTO mdDTO) {
         Article article = articleService.selectById(mdDTO.getId());
         if (article != null) {
+            mdVO.Title title = new mdVO.Title(article.getTitle(), article.getCover());
             mdVO mdVO = new mdVO();
-            mdVO.setTitle(BeanMapperUtils.map(article, mdVO.Title.class));
+            mdVO.setTitle(title);
             mdVO.setMd(article.getContent());
             mdVO.setTag(articleService.selectTags(mdDTO.getId()));
-            mdVO.setCommentread(article.getCommentread());
+            mdVO.setCommentRead(article.getCommentread());
+            mdVO.setWordCount(article.getWordCount());
+            mdVO.setDate(article.getCreatedAt());
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 List<Map<String, Object>> tocList = objectMapper.readValue(
                         article.getToc(),
-                        new TypeReference<List<Map<String, Object>>>() {
-                        }
+                        new TypeReference<List<Map<String, Object>>>() {}
                 );
                 mdVO.setToc(tocList);
             } catch (Exception e) {

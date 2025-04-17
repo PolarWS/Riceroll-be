@@ -25,6 +25,8 @@ public interface CommentsMapper extends BaseMapper<Comments> {
     List<Comments> selectByUuidOrderByDateDesc(@Param("uuid") String uuid);
 
     List<Comments> selectByRidOrderByDateDesc(@Param("rid") String rid);
+
+    List<Comments> selectEmailByPid(@Param("pid") String pid);
 }
 
 

@@ -9,6 +9,7 @@ import com.riceroll.pojo.Comments;
 import com.riceroll.mapper.CommentsMapper;
 import com.riceroll.service.CommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -33,6 +34,9 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
     @Autowired
     private ConfigServiceImpl configService;
 
+    @Value("${email.myEmail}}")
+    private String myEmail;
+
     public List<Comments> getComments(String url, Page<Comments> page) {
         return commentsMapper.selectByUrlOrderByDateDesc(url, page);
     }
@@ -52,7 +56,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
     public Boolean commentsLock(String url) throws IOException {
         List<String> segments = Arrays.stream(url.split("/"))
                 .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
+                .toList();
 
         if (segments.size() >= 2 && "articlePage".equals(segments.get(0))) {
             String articleId = segments.get(1);
@@ -117,6 +121,15 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
         return Stream.concat(list1.stream(), list2.stream())
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    public String getEmailByPid(String pid) {
+        List<Comments> comments = commentsMapper.selectEmailByPid(pid);
+        if (!comments.isEmpty()) {
+            return comments.get(0).getEmail();
+        }else {
+            return myEmail;
+        }
     }
 }
 

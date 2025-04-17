@@ -22,7 +22,6 @@ public class friendController {
         List<friendLinkPageVO> friendLinkPageVOList = new ArrayList<>();
         for (Map.Entry<String, Long> entry : friendLinksStatus.entrySet()) {
             friendLinkPageVO friendLinkPageVO = new friendLinkPageVO();
-            System.out.println("entry = " + entry);
             friendLinkPageVO.setHash(entry.getKey());
             friendLinkPageVO.setPing(entry.getValue());
             friendLinkPageVOList.add(friendLinkPageVO);

@@ -31,6 +31,9 @@ public class captchaController {
     @Value("${static.rootpath}")
     private String rootPath;
 
+    @Value("${static.captchaImage}")
+    private String captchaImagePath;
+
     @PostMapping("/captchaCreate")
     public ApiResponse<captchaCreateVO> captchaCreate() {
         String captchaUserID = java.util.UUID.randomUUID().toString().replace("-", "");
@@ -51,7 +54,7 @@ public class captchaController {
             return ResponseEntity.ok(ApiResponse.fail(400, "验证码已过期"));
         }
         String url = captcha.getUrl();
-        Path path = Paths.get(rootPath, "captchaImg", url);
+        Path path = Paths.get(rootPath, captchaImagePath, url);
         if (!Files.exists(path)) {
             return ResponseEntity.ok(ApiResponse.fail(404, "验证码图片不存在"));
         }
